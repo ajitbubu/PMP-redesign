@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
-import { createSessionToken, verifySessionToken } from "./session";
+import { describe, expect, it, vi } from "vitest";
+import { createSessionToken, SESSION_TTL_MS, verifySessionToken } from "./session";
 
 describe("session", () => {
   it("round-trips a signed token — the verified email matches what was signed", async () => {
@@ -23,5 +23,31 @@ describe("session", () => {
 
   it("rejects a malformed token (missing signature segment)", async () => {
     expect(await verifySessionToken("not-a-real-token")).toBeNull();
+  });
+
+  it("rejects a token past its expiry", async () => {
+    vi.useFakeTimers();
+    try {
+      const start = new Date("2026-01-01T00:00:00Z").getTime();
+      vi.setSystemTime(start);
+      const token = await createSessionToken("user@example.com");
+      vi.setSystemTime(start + SESSION_TTL_MS + 1); // one ms past the 8h TTL
+      expect(await verifySessionToken(token)).toBeNull();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("rejects a token signed under a different secret (the secret is actually used)", async () => {
+    const previous = process.env.SESSION_SECRET;
+    try {
+      process.env.SESSION_SECRET = "secret-A";
+      const token = await createSessionToken("user@example.com");
+      process.env.SESSION_SECRET = "secret-B";
+      expect(await verifySessionToken(token)).toBeNull();
+    } finally {
+      if (previous === undefined) delete process.env.SESSION_SECRET;
+      else process.env.SESSION_SECRET = previous;
+    }
   });
 });

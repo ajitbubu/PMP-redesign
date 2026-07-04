@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { requestOtp, verifyOtp } from "./otp-store";
 
 describe("otp-store", () => {
@@ -42,5 +42,38 @@ describe("otp-store", () => {
     expect(second).toMatchObject({ error: "cooldown" });
     if (!("error" in second)) throw new Error("expected cooldown on immediate resend");
     expect(second.retryAfterMs).toBeGreaterThan(0);
+  });
+
+  it("issues a 6-digit numeric code", () => {
+    const result = requestOtp("format@example.com");
+    if ("error" in result) throw new Error("expected a fresh code, got cooldown");
+    expect(result.code).toMatch(/^\d{6}$/);
+  });
+
+  it("reports 'expired' once the 10-minute TTL has elapsed", () => {
+    vi.useFakeTimers();
+    try {
+      const email = "expiry@example.com";
+      const result = requestOtp(email);
+      if ("error" in result) throw new Error("expected a fresh code, got cooldown");
+      vi.advanceTimersByTime(10 * 60 * 1000 + 1);
+      expect(verifyOtp(email, result.code)).toEqual({ ok: false, reason: "expired" });
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("allows a resend once the 60-second cooldown elapses", () => {
+    vi.useFakeTimers();
+    try {
+      const email = "cooldown-elapsed@example.com";
+      const first = requestOtp(email);
+      if ("error" in first) throw new Error("expected a fresh code, got cooldown");
+      vi.advanceTimersByTime(60 * 1000 + 1);
+      const second = requestOtp(email);
+      expect("code" in second).toBe(true);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
