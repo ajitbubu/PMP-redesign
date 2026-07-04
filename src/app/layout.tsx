@@ -81,6 +81,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${hankenGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-dvh bg-background text-foreground antialiased">
