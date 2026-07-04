@@ -30,3 +30,7 @@ next-env.d.ts
 # vercel
 .vercel
 .gstack/
+
+# claude code — personal, machine-local overrides (shared config is committed)
+CLAUDE.local.md
+.claude/settings.local.json
