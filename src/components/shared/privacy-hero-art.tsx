@@ -6,7 +6,7 @@
  */
 export function PrivacyHeroArt(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 300 270" role="img" aria-label="" {...props}>
+    <svg viewBox="0 0 300 270" aria-hidden="true" {...props}>
       {/* shadow */}
       <ellipse cx="150" cy="258" rx="110" ry="7" className="fill-brand-200/60" />
 

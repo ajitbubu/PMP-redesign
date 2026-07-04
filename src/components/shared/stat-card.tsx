@@ -11,7 +11,7 @@ export function StatCard({ tile, className }: { tile: StatTile; className?: stri
         <IconTile icon={tile.icon} accent={tile.accent} />
         {tile.delta ? (
           <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-            ↗ {tile.delta}
+            <span aria-hidden="true">↗</span> {tile.delta}
           </span>
         ) : null}
       </div>

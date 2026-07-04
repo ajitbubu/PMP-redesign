@@ -91,6 +91,7 @@ export function AssessmentsTable() {
           {/* Full table — lg and up */}
           <div className="hidden lg:block">
             <Table>
+              <caption className="sr-only">Privacy impact assessments</caption>
               <TableHeader>
                 <TableRow>
                   <TableHead>PIA Name</TableHead>

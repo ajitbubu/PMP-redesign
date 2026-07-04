@@ -26,7 +26,7 @@ export function IdPrivacyHero() {
 
 function HeroArt({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 440 220" role="img" aria-label="" className={className}>
+    <svg viewBox="0 0 440 220" aria-hidden="true" className={className}>
       <defs>
         <pattern id="hero-grid" width="22" height="22" patternUnits="userSpaceOnUse">
           <path d="M22 0H0V22" fill="none" stroke="#ffffff" strokeOpacity="0.07" strokeWidth="1" />

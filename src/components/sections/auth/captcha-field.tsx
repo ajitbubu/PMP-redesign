@@ -26,7 +26,7 @@ export function CaptchaField() {
           Verify you are human
         </Label>
         <span className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground">
-          <ShieldCheck className="size-4" />
+          <ShieldCheck className="size-4" aria-hidden="true" />
           Protected by Turnstile
         </span>
       </div>

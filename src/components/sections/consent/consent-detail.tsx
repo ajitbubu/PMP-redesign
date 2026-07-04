@@ -121,7 +121,7 @@ export function ConsentDetail({
   return (
     <Card className="mt-6 p-4">
       {/* Category pill tabs */}
-      <div className="flex flex-wrap gap-2" aria-label="Consent categories">
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Consent categories">
         {consentCategories.map((cat) => {
           const selected = category === cat;
           return (
