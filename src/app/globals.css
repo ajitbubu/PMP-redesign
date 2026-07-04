@@ -1,0 +1,291 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ============================================================
+   DataSafeguard ID-PRIVACY® — design tokens (Tailwind v4)
+   Ported from ~/Downloads/datasafeguard-shadcn (v3 token layer).
+   Primitives are full hsl() values so Tailwind v4 opacity
+   modifiers (bg-primary/50) resolve via color-mix.
+   Light app surface + navy sidebar chrome.
+   ============================================================ */
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* ---- Brand Blue (primary) — #1a77f2 = 500 ---- */
+  --brand-50: hsl(215 90% 96%);
+  --brand-100: hsl(212 91% 92%);
+  --brand-200: hsl(211 89% 82%);
+  --brand-300: hsl(210 89% 72%);
+  --brand-400: hsl(211 89% 63%);
+  --brand-500: hsl(214 89% 53%);
+  --brand-600: hsl(214 81% 44%);
+  --brand-700: hsl(215 82% 35%);
+  --brand-800: hsl(215 83% 25%);
+  --brand-900: hsl(216 84% 17%);
+
+  /* ---- Navy (app chrome / sidebar) ---- */
+  --navy-500: hsl(218 26% 22%);
+  --navy-600: hsl(210 51% 21%);
+  --navy-700: hsl(222 47% 11%);
+  --navy-800: hsl(213 53% 14%);
+  --navy-900: hsl(205 73% 13%); /* #092339 sidebar base */
+  --navy-950: hsl(205 61% 8%);
+
+  /* ---- Slate / Gray neutral scale ---- */
+  --gray-50: hsl(210 20% 98%);
+  --gray-100: hsl(220 14% 96%);
+  --gray-200: hsl(220 13% 91%); /* #e4e7ec hairlines */
+  --gray-300: hsl(216 12% 84%);
+  --gray-400: hsl(218 11% 65%);
+  --gray-500: hsl(220 9% 46%); /* muted text */
+  --gray-600: hsl(215 14% 34%);
+  --gray-700: hsl(217 19% 27%);
+  --gray-800: hsl(215 28% 17%); /* primary text */
+  --gray-900: hsl(221 39% 11%);
+  --gray-950: hsl(224 71% 4%);
+  --white: hsl(0 0% 100%);
+
+  /* ---- Green (success) ---- */
+  --green-50: hsl(138 76% 97%);
+  --green-100: hsl(141 84% 93%);
+  --green-500: hsl(142 71% 45%);
+  --green-600: hsl(142 76% 36%);
+  --green-700: hsl(142 72% 29%);
+
+  /* ---- Red (destructive) ---- */
+  --red-50: hsl(0 86% 97%);
+  --red-100: hsl(0 93% 94%);
+  --red-500: hsl(0 84% 60%);
+  --red-600: hsl(0 72% 51%);
+  --red-700: hsl(0 74% 42%);
+
+  /* ---- Yellow / Amber (warning) ---- */
+  --yellow-50: hsl(55 92% 95%);
+  --yellow-100: hsl(55 97% 88%);
+  --yellow-500: hsl(45 93% 47%);
+  --yellow-700: hsl(35 92% 33%);
+  --yellow-900: hsl(28 73% 26%);
+
+  /* ---- Orange ---- */
+  --orange-50: hsl(33 100% 96%);
+  --orange-500: hsl(25 95% 53%);
+  --orange-600: hsl(21 90% 48%);
+
+  /* ---- Violet — FORMALIZED accent (design-review decision T5).
+     Sole use: the "preferences" stat tile. On-token, documented. ---- */
+  --violet-50: hsl(250 100% 97%);
+  --violet-100: hsl(251 91% 95%);
+  --violet-500: hsl(258 90% 66%);
+  --violet-600: hsl(262 83% 58%);
+
+  /* ---- Product status accents (brand-exact) ---- */
+  --success: hsl(153 75% 44%); /* #1cc279 */
+  --warning: hsl(36 97% 67%); /* #fdbd5b */
+  --danger: hsl(0 79% 58%); /* #e94141 */
+
+  /* ============================================
+     SEMANTIC (shadcn) — LIGHT app surface.
+     ============================================ */
+  --background: var(--gray-50);
+  --foreground: var(--gray-800);
+  --card: var(--white);
+  --card-foreground: var(--gray-800);
+  --popover: var(--white);
+  --popover-foreground: var(--gray-800);
+  --primary: var(--brand-500);
+  --primary-foreground: var(--white);
+  --secondary: var(--gray-100);
+  --secondary-foreground: var(--gray-800);
+  --muted: var(--gray-100);
+  --muted-foreground: var(--gray-500);
+  --accent: var(--brand-50);
+  --accent-foreground: var(--brand-700);
+  --destructive: var(--red-500);
+  --destructive-foreground: var(--white);
+  --success-foreground: var(--white);
+  --warning-foreground: var(--yellow-900);
+  --border: var(--gray-200);
+  --input: var(--gray-300);
+  --ring: var(--brand-400);
+  --radius: 0.5rem;
+
+  /* ---- Sidebar (navy chrome) ---- */
+  --sidebar: var(--navy-900);
+  --sidebar-foreground: hsl(210 20% 92%);
+  --sidebar-primary: var(--brand-500);
+  --sidebar-primary-foreground: var(--white);
+  --sidebar-accent: hsl(210 30% 20%);
+  --sidebar-accent-foreground: var(--white);
+  --sidebar-border: hsl(210 40% 18%);
+  --sidebar-ring: var(--brand-400);
+
+  /* ---- Chart / stat-tile accents (all token-derived) ---- */
+  --chart-1: var(--brand-500);
+  --chart-2: var(--success);
+  --chart-3: var(--orange-500);
+  --chart-4: var(--violet-500);
+  --chart-5: var(--danger);
+}
+
+/* Optional dark theme — the product ships light-only. */
+.dark {
+  --background: var(--gray-950);
+  --foreground: var(--gray-50);
+  --card: var(--gray-900);
+  --card-foreground: var(--gray-50);
+  --popover: var(--gray-900);
+  --popover-foreground: var(--gray-50);
+  --primary: var(--brand-500);
+  --primary-foreground: var(--white);
+  --secondary: var(--gray-800);
+  --secondary-foreground: var(--gray-100);
+  --muted: var(--gray-800);
+  --muted-foreground: var(--gray-400);
+  --accent: var(--brand-700);
+  --accent-foreground: var(--gray-50);
+  --destructive: var(--red-500);
+  --destructive-foreground: var(--white);
+  --border: var(--gray-800);
+  --input: var(--gray-800);
+  --ring: var(--brand-400);
+}
+
+/* ============================================================
+   THEME MAPPING — expose tokens as Tailwind utilities.
+   ============================================================ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* brand scale */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+
+  /* navy scale */
+  --color-navy-500: var(--navy-500);
+  --color-navy-600: var(--navy-600);
+  --color-navy-700: var(--navy-700);
+  --color-navy-800: var(--navy-800);
+  --color-navy-900: var(--navy-900);
+  --color-navy-950: var(--navy-950);
+
+  /* neutral gray scale (tile accents, muted surfaces) */
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+
+  /* status / tile accents */
+  --color-green-50: var(--green-50);
+  --color-green-100: var(--green-100);
+  --color-green-500: var(--green-500);
+  --color-green-600: var(--green-600);
+  --color-green-700: var(--green-700);
+  --color-red-50: var(--red-50);
+  --color-red-100: var(--red-100);
+  --color-red-500: var(--red-500);
+  --color-red-600: var(--red-600);
+  --color-red-700: var(--red-700);
+  --color-yellow-50: var(--yellow-50);
+  --color-yellow-100: var(--yellow-100);
+  --color-yellow-500: var(--yellow-500);
+  --color-yellow-700: var(--yellow-700);
+  --color-yellow-900: var(--yellow-900);
+  --color-orange-50: var(--orange-50);
+  --color-orange-500: var(--orange-500);
+  --color-orange-600: var(--orange-600);
+  --color-violet-50: var(--violet-50);
+  --color-violet-100: var(--violet-100);
+  --color-violet-500: var(--violet-500);
+  --color-violet-600: var(--violet-600);
+
+  /* radius scale — 4 / 6 / 8 / 12px */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* fonts — CSS variables supplied by next/font in layout.tsx */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-hanken), var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* soft navy-tinted elevation (matches product, not black shadows) */
+  --shadow-xs: 0 1px 2px rgba(9, 35, 57, 0.06);
+  --shadow-sm: 0 1px 4px rgba(9, 35, 57, 0.08);
+  --shadow-md: 0 4px 12px rgba(9, 35, 57, 0.1);
+  --shadow-lg: 0 8px 24px rgba(9, 35, 57, 0.12);
+  --shadow-xl: 0 16px 40px rgba(9, 35, 57, 0.16);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* Visible focus ring for keyboard users (WCAG 2.4.7). */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Auth hero gradient — sampled directly from DSG/Login.png (top #3777b8,
+   bottom #1d5082, both hue 210 — no radial highlight in the source). */
+.auth-hero-gradient {
+  background: linear-gradient(180deg, hsl(210 54% 47%) 0%, hsl(210 64% 31%) 100%);
+}
