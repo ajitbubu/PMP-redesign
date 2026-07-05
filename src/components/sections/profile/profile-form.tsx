@@ -17,7 +17,11 @@ import { userProfile } from "@/lib/data/profile";
 import { SensitiveField } from "./sensitive-field";
 
 function RequiredMark() {
-  return <span className="text-destructive">*</span>;
+  return (
+    <span className="text-destructive">
+      *<span className="sr-only"> (required)</span>
+    </span>
+  );
 }
 
 function FieldRow({ field }: { field: ProfileField }) {
@@ -129,12 +133,12 @@ export function ProfileForm() {
         description="Customize your language and region."
       >
         <div className="flex max-w-sm flex-col gap-1.5">
-          <Label>
+          <Label htmlFor="profile-language">
             Language
             <RequiredMark />
           </Label>
           <Select defaultValue={userProfile.language}>
-            <SelectTrigger>
+            <SelectTrigger id="profile-language" aria-required="true">
               <span className="flex items-center gap-2">
                 <Globe className="size-4 shrink-0 text-muted-foreground" />
                 <SelectValue />

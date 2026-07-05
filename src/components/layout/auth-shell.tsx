@@ -25,7 +25,7 @@ export function AuthShell({
       </div>
 
       {/* Form panel */}
-      <div className="-mt-8 rounded-t-[2rem] bg-card px-6 pb-10 pt-8 shadow-xl lg:mt-0 lg:flex lg:items-center lg:rounded-none lg:px-12 lg:shadow-none">
+      <main className="-mt-8 rounded-t-[2rem] bg-card px-6 pb-10 pt-8 shadow-xl lg:mt-0 lg:flex lg:items-center lg:rounded-none lg:px-12 lg:shadow-none">
         <div className="mx-auto w-full max-w-md">
           <div className="flex justify-center lg:justify-start">
             <PoweredByDataSafeguard />
@@ -43,7 +43,7 @@ export function AuthShell({
             <div className="mt-8 text-center text-sm text-muted-foreground">{footer}</div>
           ) : null}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

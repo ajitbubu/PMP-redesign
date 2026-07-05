@@ -46,7 +46,7 @@ export function AuthForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2">
         <Label htmlFor="email">
-          <Mail className="size-4 text-muted-foreground" />
+          <Mail className="size-4 text-muted-foreground" aria-hidden="true" />
           Email Address
           <span className="text-destructive">*</span>
         </Label>
@@ -58,16 +58,27 @@ export function AuthForm() {
           onChange={(event) => setEmail(event.target.value)}
           autoComplete="email"
           required
+          aria-describedby={error ? "auth-error" : undefined}
         />
       </div>
 
       <CaptchaField />
 
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+      {error ? (
+        <p id="auth-error" role="alert" className="text-sm text-destructive">
+          {error}
+        </p>
+      ) : null}
 
-      <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full"
+        disabled={submitting}
+        aria-busy={submitting}
+      >
         {submitting ? "Sending…" : "Send OTP"}
-        <ArrowRight className="size-4" />
+        <ArrowRight className="size-4" aria-hidden="true" />
       </Button>
     </form>
   );

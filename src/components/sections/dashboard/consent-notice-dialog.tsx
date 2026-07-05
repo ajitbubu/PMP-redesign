@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogFooter,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -32,11 +33,13 @@ export function ConsentNoticeDialog() {
           <DialogTitle>{consentNotice.title}</DialogTitle>
         </DialogHeader>
 
-        <div className="max-h-[45vh] space-y-3 overflow-y-auto pr-2 text-sm leading-relaxed text-muted-foreground">
-          {consentNotice.intro.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
-          ))}
-        </div>
+        <DialogDescription asChild>
+          <div className="max-h-[45vh] space-y-3 overflow-y-auto pr-2 text-sm leading-relaxed text-muted-foreground">
+            {consentNotice.intro.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
+        </DialogDescription>
 
         <div className="space-y-3">
           {consentNotice.acknowledgements.map((acknowledgement, index) => {

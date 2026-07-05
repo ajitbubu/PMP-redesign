@@ -111,10 +111,11 @@ export function SubmitRequestForm({ kind }: { kind: RightsKind }) {
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="citizenship">
-              Citizenship<span className="text-destructive"> *</span>
+              Citizenship
+              <span className="text-destructive"> *<span className="sr-only">(required)</span></span>
             </Label>
             <Select value={form.citizenship} onValueChange={(v) => update("citizenship", v)}>
-              <SelectTrigger id="citizenship">
+              <SelectTrigger id="citizenship" aria-required="true">
                 <SelectValue placeholder="Select citizenship" />
               </SelectTrigger>
               <SelectContent>
@@ -129,10 +130,11 @@ export function SubmitRequestForm({ kind }: { kind: RightsKind }) {
 
           <div className="space-y-2">
             <Label htmlFor="country">
-              Country/Region of Residence<span className="text-destructive"> *</span>
+              Country/Region of Residence
+              <span className="text-destructive"> *<span className="sr-only">(required)</span></span>
             </Label>
             <Select value={form.country} onValueChange={(v) => update("country", v)}>
-              <SelectTrigger id="country">
+              <SelectTrigger id="country" aria-required="true">
                 <SelectValue placeholder="Select country/region" />
               </SelectTrigger>
               <SelectContent>
@@ -318,12 +320,21 @@ export function SubmitRequestForm({ kind }: { kind: RightsKind }) {
         <h2 className="font-display text-lg font-bold text-foreground">Declarations</h2>
         <p className="mt-1 text-sm text-muted-foreground">All three are required to submit.</p>
         {!allDeclared ? (
-          <p className="mt-1 text-sm font-medium text-destructive">
+          <p
+            id="declarations-error"
+            role="alert"
+            className="mt-1 text-sm font-medium text-destructive"
+          >
             Please accept all declarations to proceed
           </p>
         ) : null}
 
-        <div className="mt-4 space-y-3">
+        <div
+          className="mt-4 space-y-3"
+          role="group"
+          aria-label="Declarations"
+          aria-describedby={!allDeclared ? "declarations-error" : undefined}
+        >
           {DECLARATIONS.map((text, index) => (
             <label key={text} className="flex items-start gap-3 text-sm text-foreground">
               <Checkbox

@@ -32,7 +32,14 @@ export function PiaAttentionList() {
             <p className="mt-1 text-sm text-muted-foreground">{item.description}</p>
           </div>
           <div className="hidden w-40 md:block">
-            <div className="h-1.5 rounded-full bg-secondary">
+            <div
+              className="h-1.5 rounded-full bg-secondary"
+              role="progressbar"
+              aria-valuenow={item.progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`${item.name} progress`}
+            >
               <div
                 className={`h-1.5 rounded-full ${toneBarClass[item.badge.tone]}`}
                 style={{ width: `${item.progress}%` }}
