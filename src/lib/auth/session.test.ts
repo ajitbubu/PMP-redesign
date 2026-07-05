@@ -50,4 +50,36 @@ describe("session", () => {
       else process.env.SESSION_SECRET = previous;
     }
   });
+
+  it("rejects a validly-signed token whose payload has the wrong field types", async () => {
+    const previous = process.env.SESSION_SECRET;
+    process.env.SESSION_SECRET = "forge-secret";
+    try {
+      const enc = new TextEncoder();
+      const b64url = (bytes: Uint8Array) => {
+        let s = "";
+        for (const b of bytes) s += String.fromCharCode(b);
+        return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      };
+      const sign = async (payload: unknown) => {
+        const bytes = enc.encode(JSON.stringify(payload));
+        const key = await crypto.subtle.importKey(
+          "raw",
+          enc.encode("forge-secret"),
+          { name: "HMAC", hash: "SHA-256" },
+          false,
+          ["sign"],
+        );
+        const sig = new Uint8Array(await crypto.subtle.sign("HMAC", key, bytes));
+        return `${b64url(bytes)}.${b64url(sig)}`;
+      };
+      const future = Date.now() + 60_000;
+      // Signature is valid, but the field types violate the payload contract.
+      expect(await verifySessionToken(await sign({ email: 123, expiresAt: future }))).toBeNull();
+      expect(await verifySessionToken(await sign({ email: "u@x.com", expiresAt: "soon" }))).toBeNull();
+    } finally {
+      if (previous === undefined) delete process.env.SESSION_SECRET;
+      else process.env.SESSION_SECRET = previous;
+    }
+  });
 });

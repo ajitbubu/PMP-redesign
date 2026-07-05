@@ -52,4 +52,12 @@ describe("POST /api/auth/otp/request", () => {
     expect(body.error).toBe("cooldown");
     expect(body.retryAfterMs).toBeGreaterThan(0);
   });
+
+  it("400s with invalid_email when the body is not valid JSON", async () => {
+    const res = await POST(
+      new Request("http://localhost/api/auth/otp/request", { method: "POST", body: "not json" }),
+    );
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "invalid_email" });
+  });
 });

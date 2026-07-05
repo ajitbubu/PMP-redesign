@@ -51,4 +51,15 @@ describe("sendOtpEmail", () => {
       }),
     );
   });
+
+  it("falls back to the default from-address when EMAIL_FROM is unset", async () => {
+    process.env.RESEND_API_KEY = "re_test_key";
+    delete process.env.EMAIL_FROM;
+
+    await sendOtpEmail("user@example.com", "111111");
+
+    expect(sendMock).toHaveBeenCalledWith(
+      expect.objectContaining({ from: "ID-PRIVACY <onboarding@resend.dev>" }),
+    );
+  });
 });

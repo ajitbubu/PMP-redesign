@@ -53,4 +53,18 @@ describe("POST /api/auth/otp/verify", () => {
     expect(setCookie).toMatch(/HttpOnly/i);
     expect(setCookie).toMatch(/SameSite=lax/i);
   });
+
+  it("400s with invalid_request when only the code is provided (no email)", async () => {
+    const res = await post({ code: "123456" });
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "invalid_request" });
+  });
+
+  it("400s with invalid_request when the body is not valid JSON", async () => {
+    const res = await POST(
+      new Request("http://localhost/api/auth/otp/verify", { method: "POST", body: "{" }),
+    );
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "invalid_request" });
+  });
 });
