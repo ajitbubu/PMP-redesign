@@ -1,3 +1,20 @@
+# DataSafeguard PMP (ID-PRIVACY®)
+
+Production Next.js 15 app: App Router · React 19 · TypeScript (strict) · Tailwind v4 ·
+shadcn/ui · Vitest. See [README.md](README.md) for the full stack, routes, and architecture.
+
+Common commands: `npm run dev` · `npm run test` · `npm run typecheck` · `npm run lint` ·
+`npm run build` · `npm run format`.
+
+## Detailed rules
+
+Topic-specific conventions are split into modular files under `.claude/rules/` and imported
+here so they load with this file:
+
+@.claude/rules/code-style.md
+@.claude/rules/testing.md
+@.claude/rules/api-conventions.md
+
 ## Testing
 
 Run tests: `npm run test` (Vitest). Test directory: colocated `*.test.ts`/`*.test.tsx`

@@ -33,3 +33,7 @@ next-env.d.ts
 
 # test coverage
 /coverage
+
+# claude code — personal, machine-local overrides (shared config is committed)
+CLAUDE.local.md
+.claude/settings.local.json
