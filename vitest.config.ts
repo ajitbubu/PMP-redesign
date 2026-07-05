@@ -33,11 +33,12 @@ export default defineConfig({
       ],
       thresholds: {
         // Global floor — a ratchet that rises toward 85% as component tests
-        // land (see TEST-PLAN.md). Kept at/below current so the build stays green.
-        statements: 17,
-        branches: 17,
-        functions: 5,
-        lines: 16,
+        // land (see TEST-PLAN.md). Kept just below current so the build stays
+        // green while blocking regressions.
+        statements: 26,
+        branches: 23,
+        functions: 17,
+        lines: 26,
         // Critical layers are fully tested and must stay that way.
         "src/lib/**": { statements: 100, branches: 100, functions: 100, lines: 100 },
         "src/app/api/**": { statements: 100, branches: 100, functions: 100, lines: 100 },
