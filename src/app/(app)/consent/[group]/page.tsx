@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageContainer } from "@/components/layout/page-container";
-import { ConsentDetail } from "@/components/sections/consent/consent-detail";
-import { consentGroups, getConsentGroup, getConsentRecords } from "@/lib/data/consents";
+import { ConsentWorkspace } from "@/components/sections/consent/consent-workspace";
+import { consentGroups, getConsentGroup } from "@/lib/data/consents";
+import { requireFeature } from "@/lib/flags/server";
+import { FLAGS } from "@/lib/flags/keys";
 
 type ConsentGroupPageProps = {
   params: Promise<{ group: string }>;
@@ -27,6 +27,7 @@ export async function generateMetadata({
 }
 
 export default async function ConsentGroupPage({ params }: ConsentGroupPageProps) {
+  await requireFeature(FLAGS.UCM_ENABLE_CONSENT);
   const { group: slug } = await params;
   const group = getConsentGroup(slug);
 
@@ -34,17 +35,5 @@ export default async function ConsentGroupPage({ params }: ConsentGroupPageProps
     notFound();
   }
 
-  return (
-    <PageContainer>
-      <nav className="mb-2 text-sm text-muted-foreground" aria-label="Breadcrumb">
-        <Link href="/consent" className="text-primary hover:underline">
-          Consent
-        </Link>
-        <span className="mx-1.5">/</span>
-        <span className="text-foreground">{group.name}</span>
-      </nav>
-      <h1 className="font-display text-2xl font-bold">{group.name}</h1>
-      <ConsentDetail groupName={group.name} records={getConsentRecords(slug)} />
-    </PageContainer>
-  );
+  return <ConsentWorkspace group={group} />;
 }

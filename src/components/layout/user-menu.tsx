@@ -13,9 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { currentUser } from "@/lib/data/nav";
+import { useFlags } from "@/lib/flags/provider";
+import { FLAGS } from "@/lib/flags/keys";
 
 export function UserMenu() {
   const router = useRouter();
+  const { isEnabled } = useFlags();
 
   async function handleLogout() {
     await fetch("/api/auth/session", { method: "DELETE" });
@@ -40,16 +43,20 @@ export function UserMenu() {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{currentUser.fullName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/profile">
-            <User /> Profile
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/preferences">
-            <Settings /> Preferences
-          </Link>
-        </DropdownMenuItem>
+        {isEnabled(FLAGS.PROFILE_ENABLE_PROFILE) ? (
+          <DropdownMenuItem asChild>
+            <Link href="/profile">
+              <User /> Profile
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
+        {isEnabled(FLAGS.UCM_ENABLE_PREFERENCE) ? (
+          <DropdownMenuItem asChild>
+            <Link href="/preferences">
+              <Settings /> Preferences
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={handleLogout}>
           <LogOut /> Log out

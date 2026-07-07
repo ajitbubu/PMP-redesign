@@ -2,6 +2,11 @@ import { AppSidebar } from "@/components/layout/app-sidebar";
 import { AppHeader } from "@/components/layout/app-header";
 import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 
+// The authenticated app is per-session and feature-flag gated, so it must be
+// rendered dynamically — otherwise a statically cached route would ignore a
+// flag kill-switch (server `requireFeature` gates would never re-evaluate).
+export const dynamic = "force-dynamic";
+
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-dvh bg-background">

@@ -21,10 +21,13 @@ function enabledButtons(name: string) {
 }
 
 describe("RightsModule", () => {
-  it("marks the active segment with aria-current", () => {
+  it("renders the module heading and New Request action for its kind", () => {
     render(<RightsModule kind="dpar" />);
-    expect(screen.getByRole("link", { name: "DPAR" })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("link", { name: "DSAR" })).not.toHaveAttribute("aria-current");
+    expect(screen.getByRole("heading", { name: config.title })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /New Request/ })).toHaveAttribute(
+      "href",
+      "/rights/dpar/new",
+    );
   });
 
   it("filters the request list by the search query", async () => {

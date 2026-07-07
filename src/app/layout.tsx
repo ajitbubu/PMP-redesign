@@ -3,6 +3,9 @@ import { Inter, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { siteConfig } from "@/lib/site";
 import { AnalyticsPageView } from "@/components/analytics/analytics-page-view";
+import { FlagsProvider, Flag, FLAGS } from "@/lib/flags";
+import { loadFlags } from "@/lib/flags/load-flags.server";
+import { CookieConsentBanner } from "@/components/features/cookie-consent-banner";
 import "./globals.css";
 
 const inter = Inter({
@@ -73,11 +76,15 @@ export const viewport: Viewport = {
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Load flags server-side and seed the provider so gated UI is correct on the
+  // first paint — no flash, no client-side loading gate for the initial render.
+  const initialFlags = await loadFlags();
+
   return (
     <html
       lang="en"
@@ -85,7 +92,13 @@ export default function RootLayout({
       className={`${inter.variable} ${hankenGrotesk.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-dvh bg-background text-foreground antialiased">
-        {children}
+        <FlagsProvider initial={initialFlags}>
+          {children}
+          {/* Example gated feature: only mounts when `ucm.enable_cookie` is on. */}
+          <Flag name={FLAGS.UCM_ENABLE_COOKIE}>
+            <CookieConsentBanner />
+          </Flag>
+        </FlagsProvider>
         {gaId ? (
           <>
             <GoogleAnalytics gaId={gaId} />

@@ -179,7 +179,7 @@ export const rightsModules: Record<RightsKind, RightsModuleConfig> = {
     kind: "dsar",
     label: "DSAR",
     title: "My DSR(s)",
-    subtitle: "Track every Data Subject request you've submitted in one place.",
+    subtitle: "Track every data subject access request you've submitted in one place.",
     idPrefix: "DSR",
     stats: statsFor(dsarRequests),
     requests: dsarRequests,

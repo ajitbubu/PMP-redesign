@@ -2,20 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navItems } from "@/lib/data/nav";
+import { visibleNavItems } from "@/lib/data/nav";
 import { isNavActive } from "@/components/layout/app-sidebar";
+import { useFlags } from "@/lib/flags/provider";
 import { cn } from "@/lib/utils";
 
 /** Fixed bottom tab bar for mobile/tablet (hidden at lg+). Touch targets ≥44px. */
 export function MobileTabBar() {
   const pathname = usePathname();
+  const { isEnabled } = useFlags();
+  const items = visibleNavItems(isEnabled);
 
   return (
     <nav
       aria-label="Primary"
       className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-sidebar-border bg-sidebar px-1 pb-[env(safe-area-inset-bottom)] pt-1.5 text-sidebar-foreground lg:hidden"
     >
-      {navItems.map((item) => {
+      {items.map((item) => {
         const active = isNavActive(item, pathname);
         const Icon = item.icon;
         return (

@@ -4,9 +4,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function RightsLoading() {
   return (
     <div className="mx-auto w-full max-w-[1400px]">
-      {/* Segmented switch */}
-      <Skeleton className="mb-6 h-11 w-44 rounded-lg" />
-
       {/* Header row */}
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">

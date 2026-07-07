@@ -1,12 +1,16 @@
+import type { ComponentType } from "react";
 import type { LucideIcon } from "lucide-react";
 
 /* ----------------------------- Navigation ----------------------------- */
 export interface NavItem {
   label: string;
   href: string;
-  icon: LucideIcon;
+  /** A lucide glyph or a custom SVG icon component (see `nav-icons.tsx`). */
+  icon: LucideIcon | ComponentType<{ className?: string }>;
   /** Extra hrefs that should also mark this item active (drill-downs). */
   matches?: string[];
+  /** Feature-flag key gating this entry. Omitted → always visible. */
+  flag?: string;
 }
 
 /* ------------------------------ Statuses ------------------------------ */
@@ -50,6 +54,8 @@ export interface ConsentRecord {
   id: string;
   groupSlug: string;
   name: string;
+  /** Short human-readable purpose line shown under the name in the table. */
+  description: string;
   purpose: ConsentPurpose;
   category: "Necessary" | "Analytics" | "Communication" | "Marketing Offers";
   state: Exclude<ConsentState, "Expiring Soon">;
@@ -152,6 +158,8 @@ export interface AuditLogEntry {
   from: string;
   to: string;
   timeLabel: string;
+  /** Optional free-text reason/note captured at change time. */
+  note?: string;
 }
 
 /* --------------------------- Notifications --------------------------- */

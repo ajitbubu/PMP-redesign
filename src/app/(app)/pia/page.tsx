@@ -6,13 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PiaAttentionList } from "@/components/sections/pia/pia-attention-list";
 import { piaStats, piaAttention } from "@/lib/data/pia";
+import { requireFeature } from "@/lib/flags/server";
+import { FLAGS } from "@/lib/flags/keys";
 
 export const metadata: Metadata = {
   title: "PIA",
   description: "Privacy Impact Assessments tracked across vendors.",
 };
 
-export default function PiaDashboardPage() {
+export default async function PiaDashboardPage() {
+  await requireFeature(FLAGS.PIA_ENABLE_PIA);
   return (
     <PageContainer
       title="PIA"

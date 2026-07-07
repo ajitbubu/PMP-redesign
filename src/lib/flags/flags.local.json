@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "tenant": "datasafeguard",
+    "environment": "dev",
+    "platform": "web",
+    "appVersion": "1.0.0",
+    "version": "v3",
+    "publishedAt": "2026-07-06T22:19:07.360Z",
+    "cdnUrl": "https://datasafeguard.com/dev/samsung.json",
+    "etag": "W/\"0d791446\""
+  },
+  "features": {
+    "ucm.enable_cookie": false,
+    "ucm.disable_privacy_banner": false,
+    "ucm.enable_consent": true,
+    "ucm.enable_preference": true,
+    "dsar.enable_dsar": true,
+    "pia.enable_pia": true,
+    "profile.enable_profile": true,
+    "ucm.cookie_ttl_days": 180
+  }
+}

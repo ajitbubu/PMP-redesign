@@ -19,6 +19,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# local dev server log (used to grab dev OTP codes)
+/dev.log
+
 # env files
 .env
 .env*.local
@@ -37,3 +40,6 @@ next-env.d.ts
 # claude code — personal, machine-local overrides (shared config is committed)
 CLAUDE.local.md
 .claude/settings.local.json
+
+# temporary assets needs to hide from git, but are not ignored by default because they are in a subdirectory of the project root
+/public/temp

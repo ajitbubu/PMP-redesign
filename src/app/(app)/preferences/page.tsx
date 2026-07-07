@@ -3,6 +3,8 @@ import { PageContainer } from "@/components/layout/page-container";
 import { StatCard } from "@/components/shared/stat-card";
 import { PreferenceList } from "@/components/sections/preferences/preference-list";
 import { preferenceStats } from "@/lib/data/preferences";
+import { requireFeature } from "@/lib/flags/server";
+import { FLAGS } from "@/lib/flags/keys";
 
 export const metadata: Metadata = {
   title: "Manage Preference",
@@ -10,7 +12,8 @@ export const metadata: Metadata = {
     "Review and adjust how your data is processed across services and communication channels.",
 };
 
-export default function PreferencesPage() {
+export default async function PreferencesPage() {
+  await requireFeature(FLAGS.UCM_ENABLE_PREFERENCE);
   return (
     <PageContainer
       title="Manage Preference"

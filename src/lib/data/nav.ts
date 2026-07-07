@@ -1,39 +1,59 @@
-import { LayoutGrid, ShieldCheck, SlidersHorizontal, UserRoundCog, ShieldAlert } from "lucide-react";
+import { LayoutGrid } from "lucide-react";
+import { ConsentIcon, PreferencesIcon, DparIcon, PiaIcon } from "@/components/shared/nav-icons";
+import { FLAGS } from "@/lib/flags/keys";
 import type { NavItem, CurrentUser } from "@/lib/types";
 
 /**
- * Primary navigation. Five entries match the Figma chrome. "Data Rights"
- * covers both DPAR and DSAR — per the design-review decision they share one
- * implementation but keep separate routes/audit trails, switched inside the
- * module (matches the dense 5-item rail in the mockups).
+ * Primary navigation. A single "DPAR" rail entry covers the rights section: it
+ * shares the `RightsModule` implementation with DSAR and keeps distinct
+ * routes/audit trails, but only DPAR is surfaced in the rail (the /rights/dsar
+ * route still exists and is highlighted under DPAR via `matches`). Icons are the
+ * design glyphs from `public/*-icon.svg` (see `nav-icons.tsx`); Dashboard keeps
+ * lucide's LayoutGrid as no matching asset exists.
  */
 export const navItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutGrid },
   {
     label: "Consent",
     href: "/consent",
-    icon: ShieldCheck,
+    icon: ConsentIcon,
     matches: ["/consent/"],
+    flag: FLAGS.UCM_ENABLE_CONSENT,
   },
   {
     label: "Preferences",
     href: "/preferences",
-    icon: SlidersHorizontal,
+    icon: PreferencesIcon,
     matches: ["/preferences/"],
+    flag: FLAGS.UCM_ENABLE_PREFERENCE,
   },
   {
-    label: "Data Rights",
+    label: "DPAR",
     href: "/rights/dpar",
-    icon: UserRoundCog,
+    icon: DparIcon,
     matches: ["/rights/dsar", "/rights/"],
+    flag: FLAGS.DSAR_ENABLE_DSAR,
   },
   {
     label: "PIA",
     href: "/pia",
-    icon: ShieldAlert,
+    icon: PiaIcon,
     matches: ["/pia/"],
+    flag: FLAGS.PIA_ENABLE_PIA,
   },
 ];
+
+/**
+ * Filter nav entries by their feature flag. Unflagged items (e.g. Dashboard)
+ * are always visible; flagged items appear only when `isEnabled` returns true,
+ * so a disabled or unknown flag hides the entry (fail closed).
+ */
+export function visibleNavItems(
+  isEnabled: (flag: string) => boolean,
+  items: NavItem[] = navItems,
+): NavItem[] {
+  return items.filter((item) => !item.flag || isEnabled(item.flag));
+}
 
 export const currentUser: CurrentUser = {
   firstName: "Jane",

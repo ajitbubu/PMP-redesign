@@ -9,6 +9,8 @@ import {
   getPreferenceRecords,
   preferenceChannels,
 } from "@/lib/data/preferences";
+import { requireFeature } from "@/lib/flags/server";
+import { FLAGS } from "@/lib/flags/keys";
 
 type PageProps = { params: Promise<{ channel: string }> };
 
@@ -31,6 +33,7 @@ export async function generateMetadata({
 }
 
 export default async function PreferenceChannelPage({ params }: PageProps) {
+  await requireFeature(FLAGS.UCM_ENABLE_PREFERENCE);
   const { channel } = await params;
   const found = getPreferenceChannel(channel);
   if (!found) {

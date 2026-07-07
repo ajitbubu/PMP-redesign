@@ -29,7 +29,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { PaginationBar } from "@/components/shared/pagination-bar";
 import { CancelRequestDialog } from "@/components/sections/rights/cancel-request-dialog";
 import { cn, formatDate } from "@/lib/utils";
-import { getRightsModule, type RightsModuleConfig } from "@/lib/data/rights";
+import { getRightsModule } from "@/lib/data/rights";
 import type { RightsKind, RightsRequest } from "@/lib/types";
 
 const CLOSED_STATUSES = new Set(["Completed", "Rejected"]);
@@ -74,38 +74,11 @@ export function RightsModule({ kind }: { kind: RightsKind }) {
 
   function emailReport() {
     setToastTitle("Report Successfully Emailed");
-    setToast("The report has been sent to your registered email.");
+    setToast(`The ${config.idPrefix} report has been sent to your registered email.`);
   }
-
-  const segments: { kind: RightsModuleConfig["kind"]; label: string; href: string }[] = [
-    { kind: "dpar", label: "DPAR", href: "/rights/dpar" },
-    { kind: "dsar", label: "DSAR", href: "/rights/dsar" },
-  ];
 
   return (
     <div className="mx-auto w-full max-w-[1400px]">
-      {/* Segmented DPAR | DSAR switch */}
-      <div className="mb-6 inline-flex rounded-lg border border-border bg-card p-1">
-        {segments.map((seg) => {
-          const active = seg.kind === config.kind;
-          return (
-            <Link
-              key={seg.kind}
-              href={seg.href}
-              aria-current={active ? "page" : undefined}
-              className={cn(
-                "inline-flex h-9 min-w-20 items-center justify-center rounded-md px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                active
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              {seg.label}
-            </Link>
-          );
-        })}
-      </div>
-
       {/* Header row */}
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>

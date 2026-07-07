@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navItems } from "@/lib/data/nav";
+import { visibleNavItems } from "@/lib/data/nav";
+import { useFlags } from "@/lib/flags/provider";
 import type { NavItem } from "@/lib/types";
 import { BrandLogo } from "@/components/shared/brand-logo";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,8 @@ export function isNavActive(item: NavItem, pathname: string): boolean {
 /** Desktop navy sidebar (hidden below lg — mobile uses the bottom tab bar). */
 export function AppSidebar() {
   const pathname = usePathname();
+  const { isEnabled } = useFlags();
+  const items = visibleNavItems(isEnabled);
 
   return (
     <aside className="sticky top-0 hidden h-dvh w-[104px] shrink-0 flex-col items-center bg-sidebar py-6 text-sidebar-foreground lg:flex">
@@ -28,7 +31,7 @@ export function AppSidebar() {
       </Link>
 
       <nav aria-label="Primary" className="mt-8 flex flex-1 flex-col gap-2">
-        {navItems.map((item) => {
+        {items.map((item) => {
           const active = isNavActive(item, pathname);
           const Icon = item.icon;
           return (
@@ -39,8 +42,8 @@ export function AppSidebar() {
               className={cn(
                 "flex w-[72px] flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-[11px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring",
                 active
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  ? "bg-navy-600 text-sidebar-primary"
+                  : "text-sidebar-foreground/80 hover:bg-navy-800 hover:text-sidebar-accent-foreground",
               )}
             >
               <Icon className="size-5" />

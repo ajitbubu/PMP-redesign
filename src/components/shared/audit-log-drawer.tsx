@@ -4,17 +4,21 @@ import { History } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { getAuditLog } from "@/lib/data/audit-log";
+import type { AuditLogEntry } from "@/lib/types";
 
 export function AuditLogDrawer({
   open,
   onOpenChange,
   itemName,
+  entries: entriesProp,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   itemName: string;
+  /** Per-item change history. Falls back to the shared mock timeline when omitted. */
+  entries?: AuditLogEntry[];
 }) {
-  const entries = getAuditLog();
+  const entries = entriesProp ?? getAuditLog();
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -51,6 +55,14 @@ export function AuditLogDrawer({
                   <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">To</p>
                   <p className="text-foreground">{entry.to}</p>
                 </div>
+                {entry.note ? (
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      Reason
+                    </p>
+                    <p className="text-foreground">{entry.note}</p>
+                  </div>
+                ) : null}
               </div>
             </li>
           ))}
